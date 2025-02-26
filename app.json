@@ -2,6 +2,10 @@
   "expo": {
     "name": "test-app",
     "slug": "test-app",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "plugins": ["expo-speech-recognition"],
+    "android": {
+      "package": "com.yoshie.testapp"
+    }
   }
 }
