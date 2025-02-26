@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { PermissionsAndroid } from 'react-native'
-import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from 'expo-speech-recognition'
+import { ExpoSpeechRecognitionModule } from 'expo-speech-recognition'
 
 const handleStartRecognition = async () => {
     try {

@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import { useState, useEffect } from 'react'
-import { StyleSheet, View, Text, Button, ScrollView, PermissionsAndroid, Platform } from 'react-native'
-import { ExpoSpeechRecognitionModule, useSpeechRecognitionEvent } from 'expo-speech-recognition'
+import { StyleSheet, View } from 'react-native'
+import { useSpeechRecognitionEvent } from 'expo-speech-recognition'
 
 import Header from './components/Header'
 import ItemList from './components/ItemList'
