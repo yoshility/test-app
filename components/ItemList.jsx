@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 
-import handleDelete from '../utils/handleDelete'
+// import handleDelete from '../utils/handleDelete'
+import { deleteItem } from '../utils/AsyncStorage'
 
 const ItemList = (props) => {
 	const { items, setItems } = props
@@ -17,7 +18,8 @@ const ItemList = (props) => {
 							<Text>{item.created_at}</Text>
 						</View>
 						<TouchableOpacity
-                            onPress={() => handleDelete(item.id, items, setItems)}
+                            // onPress={() => handleDelete(item.id, items, setItems)}
+                            onPress={() => deleteItem(item.id, items, setItems)}
                         >
 							<AntDesign name='close' size={16} color='black' />
 						</TouchableOpacity>

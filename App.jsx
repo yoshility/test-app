@@ -8,8 +8,9 @@ import ItemList from './components/ItemList'
 import InputForm from './components/InputForm'
 import ModalTab from './components/ModalTab'
 import handleStartRecognition from './utils/handleStartRecognition'
-import handleSend from './utils/handleSend'
+// import handleSend from './utils/handleSend'
 import handleNotification from './utils/handleNotification'
+import { fetchItems, addItem } from './utils/AsyncStorage'
 
 const App = () => {
 	const [items, setItems] = useState([])
@@ -20,14 +21,16 @@ const App = () => {
 	
 	// ------- Voice -------
 	useSpeechRecognitionEvent('start', () => setRecognizing(true))
-	useSpeechRecognitionEvent('end', () => {
+	useSpeechRecognitionEvent('end', async () => {
 		setRecognizing(false)
 		setIsModalVisible(false)
 		if (transcript) {
-			handleSend(transcript, items, setItems, setInputValue)
+			// handleSend(transcript, items, setItems, setInputValue)
+			const updatedItems = await addItem(transcript, items)
+			setItems(updatedItems)
+			setTranscript('')
+			handleNotification(transcript)
 		}
-		setTranscript('')
-		handleNotification(transcript)
 	})
 	useSpeechRecognitionEvent('result', (event) => {
 		setTranscript(event.results[0]?.transcript)
@@ -37,22 +40,32 @@ const App = () => {
 	})
   
   	// ------- Get item -------
+	// useEffect(() => {
+	// 	const fetchItems = async () => {
+	// 		try {
+	// 			const response = await fetch('http://192.168.3.4:8000/api/items/')
+	// 			console.log('connected!')
+	// 			if (!response.ok) {
+	// 				console.error('Failed to get items:', response)
+	// 			}
+	// 			const data = await response.json()
+	// 			console.log('data(get):', data)
+	// 			setItems(data)
+	// 		} catch (error) {
+	// 			console.error('Failed to connect(get):', error)
+	// 		}
+	// 	}
+	// 	fetchItems()
+	// }, [])
+
+	// ------- Get item -------
 	useEffect(() => {
-		const fetchItems = async () => {
-			try {
-				const response = await fetch('http://192.168.3.4:8000/api/items/')
-				console.log('connected!')
-				if (!response.ok) {
-					console.error('Failed to get items:', response)
-				}
-				const data = await response.json()
-				console.log('data(get):', data)
-				setItems(data)
-			} catch (error) {
-				console.error('Failed to connect(get):', error)
-			}
+		const loadItems = async () => {
+			const data = await fetchItems()
+			console.log('data(fetch):', data)
+			setItems(data) // dataはオブジェクトのリスト
 		}
-		fetchItems()
+		loadItems()
 	}, [])
 	
 	return (

@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 
-import handleSend from '../utils/handleSend'
+// import handleSend from '../utils/handleSend'
 import handleNotification from '../utils/handleNotification'
+import { addItem } from '../utils/AsyncStorage'
 
 const InputForm = (props) => {
     const {
@@ -20,13 +21,16 @@ const InputForm = (props) => {
                     style={styles.input}
                     value={inputValue}
                     onChangeText={(text) => setInputValue(text)}
-                    placeholder='Add memo'
+                    placeholder='Add todo'
                 />
                 {inputValue ? (
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => {
-                            handleSend(inputValue, items, setItems, setInputValue)
+                        onPress={async () => {
+                            // handleSend(inputValue, items, setItems, setInputValue)
+                            const updatedItems = await addItem(inputValue, items)
+                            setItems(updatedItems)
+                            setInputValue('')
                             handleNotification(inputValue)
                         }}
                     >
