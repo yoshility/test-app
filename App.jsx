@@ -9,6 +9,7 @@ import InputForm from './components/InputForm'
 import ModalTab from './components/ModalTab'
 import handleStartRecognition from './utils/handleStartRecognition'
 import handleSend from './utils/handleSend'
+import handleNotification from './utils/handleNotification'
 
 const App = () => {
 	const [items, setItems] = useState([])
@@ -22,7 +23,11 @@ const App = () => {
 	useSpeechRecognitionEvent('end', () => {
 		setRecognizing(false)
 		setIsModalVisible(false)
-		handleSend(transcript, items, setItems, setInputValue)
+		if (transcript) {
+			handleSend(transcript, items, setItems, setInputValue)
+		}
+		setTranscript('')
+		handleNotification(transcript)
 	})
 	useSpeechRecognitionEvent('result', (event) => {
 		setTranscript(event.results[0]?.transcript)

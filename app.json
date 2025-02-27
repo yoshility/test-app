@@ -3,7 +3,10 @@
     "name": "test-app",
     "slug": "test-app",
     "version": "1.0.0",
-    "plugins": ["expo-speech-recognition"],
+    "plugins": [
+      ["expo-speech-recognition"],
+      ["expo-notifications"]
+    ],
     "android": {
       "package": "com.yoshie.testapp"
     }

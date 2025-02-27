@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 
 import handleSend from '../utils/handleSend'
+import handleNotification from '../utils/handleNotification'
 
 const InputForm = (props) => {
     const {
@@ -22,12 +23,15 @@ const InputForm = (props) => {
                     placeholder='Add memo'
                 />
                 {inputValue ? (
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => handleSend(inputValue, items, setItems, setInputValue)}
-                >
-                    <Text>Send</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => {
+                            handleSend(inputValue, items, setItems, setInputValue)
+                            handleNotification(inputValue)
+                        }}
+                    >
+                        <Text>Send</Text>
+                    </TouchableOpacity>
                 ) : (
                     <TouchableOpacity
                         style={styles.button}
