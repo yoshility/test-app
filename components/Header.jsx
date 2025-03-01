@@ -3,21 +3,22 @@ import { View, Text, StyleSheet } from 'react-native';
 const Header = () => {
     return (
         <View style={styles.headerContainer}>
-            <View>
-                <Text>My App</Text>
-                <Text>Logout</Text>
-            </View>
+            <Text style={styles.logo}>Speak Todo</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     headerContainer: {
-      backgroundColor: '#dcc',
-      padding: 4,
+      backgroundColor: '#fff',
+      padding: 16,
       justifyContent: 'flex-end',
       alignItems: 'center',
-      height: '13%'
+      height: '13%',
+      borderColor: 'gray'
+    },
+    logo: {
+        fontSize: 20
     }
 });
 

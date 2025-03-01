@@ -4,7 +4,6 @@ import { Alert } from "react-native"
 // Fetch Items
 export const fetchItems = async () => {
     const storedItems = await AsyncStorage.getItem("items")
-    console.log()
     return storedItems ? JSON.parse(storedItems) : []
 }
 

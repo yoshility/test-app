@@ -13,13 +13,14 @@ const ItemList = (props) => {
 				data={items}
 				renderItem={({ item }) => (
 					<View style={styles.itemContainer}>
-						<View>
-							<Text>{item.name}</Text>
-							<Text>{item.created_at}</Text>
+						<View style={{width: '93%'}}>
+							<Text style={{fontSize: 20}}>{item.name}</Text>
+							<Text style={{color: '#444'}}>{item.created_at}</Text>
 						</View>
 						<TouchableOpacity
                             // onPress={() => handleDelete(item.id, items, setItems)}
                             onPress={() => deleteItem(item.id, items, setItems)}
+                            style={styles.deleteButton}
                         >
 							<AntDesign name='close' size={16} color='black' />
 						</TouchableOpacity>
@@ -40,9 +41,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 16,
         borderRadius: 16,
-        marginBottom: 16,
+        marginTop: 8,
+        marginBottom: 8,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    deleteButton: {
+        width: 30,
+        height: 30,
+        justifyContent: 'center',
         alignItems: 'center'
     }
   });

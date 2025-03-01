@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import Feather from '@expo/vector-icons/Feather';
 
 // import handleSend from '../utils/handleSend'
 import handleNotification from '../utils/handleNotification'
@@ -21,7 +22,7 @@ const InputForm = (props) => {
                     style={styles.input}
                     value={inputValue}
                     onChangeText={(text) => setInputValue(text)}
-                    placeholder='Add todo'
+                    placeholder='Todoを入力'
                 />
                 {inputValue ? (
                     <TouchableOpacity
@@ -34,7 +35,7 @@ const InputForm = (props) => {
                             handleNotification(inputValue)
                         }}
                     >
-                        <Text>Send</Text>
+                        <Feather name="send" size={36} color="black" />
                     </TouchableOpacity>
                 ) : (
                     <TouchableOpacity
@@ -44,7 +45,7 @@ const InputForm = (props) => {
                             handleStartRecognition()
                         }}
                     >
-                        <Text>Mic</Text>
+                        <Feather name="mic" size={36} color="black" />
                     </TouchableOpacity>
                 )}
             </View>
@@ -54,22 +55,24 @@ const InputForm = (props) => {
 
 const styles = StyleSheet.create({
     inputFormContainer: {
-        backgroundColor: '#cdc',
+        backgroundColor: '#fff',
         padding: 16,
     },
     inputForm: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     input: {
         flex: 1,
         fontSize: 16, 
-        backgroundColor: '#fff'
+        backgroundColor: '#eee',
+        borderRadius: 30,
+        padding: 15
     },
     button: {
-        backgroundColor: '#4d4',
         height: 50,
         width: 50,
-        borderRadius: 100,
+        marginLeft: 10,
         justifyContent: 'center',
         alignItems: 'center'
     }

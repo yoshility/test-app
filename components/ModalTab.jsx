@@ -22,12 +22,12 @@ const ModalTab = (props) => {
         >
             <View style={styles.modal}>
                 {!recognizing ? (
-                    <Text>Not recognizing</Text>
+                    <Text style={styles.text1}>認識停止</Text>
                 ) : (
-                    <Text>Recognizing...</Text>
+                    <Text style={styles.text1}>認識中...</Text>
                 )}
-                <Text>背景をタップしてキャンセル</Text>
-                <Text>transcript:{transcript}</Text>
+                <Text style={styles.text2}>背景をタップしてキャンセル</Text>
+                <Text>{transcript}</Text>
             </View>
         </Modal>
     )
@@ -45,6 +45,13 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         alignItems: 'center'
+    },
+    text1: {
+        fontSize: 30
+    },
+    text2: {
+        marginTop: 15,
+        color: 'gray'
     }
 })
 
