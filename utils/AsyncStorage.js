@@ -1,14 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Alert } from "react-native"
 
-// Fetch Items
-export const fetchItems = async () => {
+// Fetch Items from storage
+export const fetchItems_from_storage = async () => {
     const storedItems = await AsyncStorage.getItem("items")
     return storedItems ? JSON.parse(storedItems) : []
 }
 
 // Add Item
-export const addItem = async (value, items) => {
+export const addItem = (value, items) => {
     const newItem = {
         id: new Date().toLocaleString('ja-JP', {
             timeZone: 'Asia/Tokyo'
@@ -26,28 +25,23 @@ export const addItem = async (value, items) => {
     }
     console.log('newItem:', newItem)
     const updatedItems = [newItem, ...items] // newItemはID付き！
-    await AsyncStorage.setItem("items", JSON.stringify(updatedItems))
     return updatedItems
 }
 
-// Delte Item
-export const deleteItem = async (id, items, setItems) => {
-    Alert.alert('メモを削除します', 'よろしいですか？', [
-        {
-            text: 'キャンセル'
-        },
-        {
-            text: '削除',
-            onPress: async () => {
-                try {
-                    const updatedItems = items.filter((item) => item.id !== id)
-                    console.log('updatedItems(delete):', updatedItems)
-                    await AsyncStorage.setItem("items", JSON.stringify(updatedItems))
-                    setItems(updatedItems)
-                } catch (error) {
-                    console.error("Failed to deleteItem:", error)
-                }
-            }
-        }
-    ])
+// Add Item to storage
+export const addItem_to_storage = async (updatedItems) => {
+    // ストレージだけを更新
+    await AsyncStorage.setItem("items", JSON.stringify(updatedItems))
+}
+
+// Delte Item from storage
+export const deleteItem_from_storage = async (id, items) => {
+    // ストレージだけを更新
+    try {
+        const updatedItems = items.filter((item) => item.id !== id)
+        console.log('updatedItems(delete):', updatedItems)
+        await AsyncStorage.setItem("items", JSON.stringify(updatedItems))
+    } catch (error) {
+        console.error("Failed to deleteItem:", error)
+    }
 }

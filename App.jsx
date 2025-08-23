@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, LayoutAnimation, Platform, UIManager } from 'react-native'
 import { useSpeechRecognitionEvent } from 'expo-speech-recognition'
 
 import Header from './components/Header'
@@ -10,7 +10,7 @@ import ModalTab from './components/ModalTab'
 import handleStartRecognition from './utils/handleStartRecognition'
 // import handleSend from './utils/handleSend'
 import handleNotification from './utils/handleNotification'
-import { fetchItems, addItem } from './utils/AsyncStorage'
+import { fetchItems_from_storage, addItem, addItem_to_storage } from './utils/AsyncStorage'
 
 const App = () => {
 	const [items, setItems] = useState([])
@@ -21,15 +21,19 @@ const App = () => {
 	
 	// ------- Voice -------
 	useSpeechRecognitionEvent('start', () => setRecognizing(true))
-	useSpeechRecognitionEvent('end', async () => {
+	useSpeechRecognitionEvent('end', () => {
 		setRecognizing(false)
 		setIsModalVisible(false)
 		if (transcript) {
 			// handleSend(transcript, items, setItems, setInputValue)
-			const updatedItems = await addItem(transcript, items)
+			LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+			// 1. 先に状態を更新
+			const updatedItems = addItem(transcript, items)
 			setItems(updatedItems)
 			setTranscript('')
 			handleNotification(transcript)
+			// 2. 非同期でストレージを更新
+			addItem_to_storage(updatedItems)
 		}
 	})
 	useSpeechRecognitionEvent('result', (event) => {
@@ -39,10 +43,15 @@ const App = () => {
 		console.log('SR error:', event.error, 'error message:', event.message)
 	})
 
-	// ------- Get item -------
+	// ------- UIManager setting & Get item -------
 	useEffect(() => {
+		if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+            console.log("setLayoutAnimationEnabledExperimental(true)")
+            UIManager.setLayoutAnimationEnabledExperimental(true)
+        }
+		
 		const loadItems = async () => {
-			const data = await fetchItems()
+			const data = await fetchItems_from_storage()
 			console.log('data(fetch):', data)
 			setItems(data) // data: Object[]
 		}

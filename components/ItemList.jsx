@@ -1,11 +1,19 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, LayoutAnimation, Platform, UIManager, Alert } from 'react-native'
+import { useEffect } from 'react'
 import { AntDesign } from '@expo/vector-icons'
 
 // import handleDelete from '../utils/handleDelete'
-import { deleteItem } from '../utils/AsyncStorage'
+import { deleteItem_from_storage } from '../utils/AsyncStorage'
 
 const ItemList = (props) => {
 	const { items, setItems } = props
+
+    useEffect(() => {
+        if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+            console.log("setLayoutAnimationEnabledExperimental(true)")
+            UIManager.setLayoutAnimationEnabledExperimental(true)
+        }
+    }, [])
 
     return (
         <View style={styles.itemListContainer}>
@@ -19,7 +27,25 @@ const ItemList = (props) => {
 						</View>
 						<TouchableOpacity
                             // onPress={() => handleDelete(item.id, items, setItems)}
-                            onPress={() => deleteItem(item.id, items, setItems)}
+                            onPress={() => {
+                                Alert.alert('メモを削除します', 'よろしいですか？', [
+                                        {
+                                            text: 'キャンセル'
+                                        },
+                                        {
+                                            text: '削除',
+                                            onPress: () => {
+                                                LayoutAnimation.configureNext( LayoutAnimation.Presets.easeInEaseOut)
+                                                // 1. 先に状態を更新
+                                                const updatedItems = items.filter(i => i.id !== item.id)
+                                                setItems(updatedItems)
+                                                // 2. 非同期でストレージを更新
+                                                deleteItem_from_storage(item.id, items)
+                                            }
+                                        }
+                                    ]
+                                )
+                            }}
                             style={styles.deleteButton}
                         >
 							<AntDesign name='close' size={16} color='black' />
