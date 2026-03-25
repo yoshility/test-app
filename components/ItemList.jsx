@@ -22,13 +22,13 @@ const ItemList = (props) => {
 				renderItem={({ item }) => (
 					<View style={styles.itemContainer}>
 						<View style={{width: '93%'}}>
-							<Text style={{fontSize: 20}}>{item.name}</Text>
+							<Text style={{fontSize: 20, color: '#222'}}>{item.name}</Text>
 							<Text style={{color: '#444'}}>{item.created_at}</Text>
 						</View>
 						<TouchableOpacity
                             // onPress={() => handleDelete(item.id, items, setItems)}
                             onPress={() => {
-                                Alert.alert('メモを削除します', 'よろしいですか？', [
+                                Alert.alert('メモを削除します', `「${item.name}」を削除します。\nよろしいですか？`, [
                                         {
                                             text: 'キャンセル'
                                         },

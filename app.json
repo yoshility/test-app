@@ -3,12 +3,27 @@
     "name": "test-app",
     "slug": "test-app",
     "version": "1.0.0",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
     "plugins": [
       ["expo-speech-recognition"],
       ["expo-notifications"]
     ],
     "android": {
-      "package": "com.yoshie.testapp"
+      "package": "com.yoshie.testapp",
+      "versionCode": 1,
+      "permissions": [
+        "RECORD_AUDIO",
+        "POST_NOTIFICATIONS"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon_adaptive_foreground.png",
+        "backgroundImage": "./assets/icon_adaptive_background.png"
+      }
     }
   }
 }
