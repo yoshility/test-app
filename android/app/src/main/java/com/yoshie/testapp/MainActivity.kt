@@ -1,4 +1,4 @@
-package com.testapp
+package com.yoshie.testapp
 
 import android.os.Build
 import android.os.Bundle

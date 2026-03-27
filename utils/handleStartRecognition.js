@@ -5,13 +5,13 @@ const handleStartRecognition = async () => {
     try {
         const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-            {
-                title: 'Microphone Permission',
-                message: 'This app needs access to your microphone to recognize speech.',
-                buttonNeutral: 'Ask Me Later',
-                buttonNegative: 'Cancel',
-                buttonPositive: 'OK',
-            }
+            // {
+            //     title: 'Microphone Permission',
+            //     message: 'This app needs access to your microphone to recognize speech.',
+            //     buttonNeutral: 'Ask Me Later',
+            //     buttonNegative: 'Cancel',
+            //     buttonPositive: 'OK',
+            // }
         )
         console.log('granted:', granted)
         if (granted !== PermissionsAndroid.RESULTS.GRANTED) {

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar'
 import { useState, useEffect } from 'react'
-import { StyleSheet, View, LayoutAnimation, Platform, UIManager } from 'react-native'
+import { StyleSheet, View, LayoutAnimation, Platform, UIManager, PermissionsAndroid } from 'react-native'
 import { useSpeechRecognitionEvent } from 'expo-speech-recognition'
 
 import Header from './components/Header'
@@ -11,6 +11,7 @@ import handleStartRecognition from './utils/handleStartRecognition'
 // import handleSend from './utils/handleSend'
 import handleNotification from './utils/handleNotification'
 import { fetchItems_from_storage, addItem, addItem_to_storage } from './utils/AsyncStorage'
+import * as Notifications from 'expo-notifications'
 
 const App = () => {
 	const [items, setItems] = useState([])
@@ -43,19 +44,39 @@ const App = () => {
 		console.log('SR error:', event.error, 'error message:', event.message)
 	})
 
-	// ------- UIManager setting & Get item -------
+	// ------- When contents loaded -------
 	useEffect(() => {
+		// UIManager setting
 		if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
             console.log("setLayoutAnimationEnabledExperimental(true)")
             UIManager.setLayoutAnimationEnabledExperimental(true)
         }
 		
+		// Load items
 		const loadItems = async () => {
 			const data = await fetchItems_from_storage()
 			console.log('data(fetch):', data)
 			setItems(data) // data: Object[]
 		}
 		loadItems()
+
+		// Permission Check
+		const checkPermission = async () => {
+			// マイク
+			const mic = await PermissionsAndroid.request(
+				PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
+			)
+			console.log('mic:', mic)
+
+			// 通知
+			const { status } = await Notifications.getPermissionsAsync()
+
+			if (status !== 'granted') {
+				const res = await Notifications.requestPermissionsAsync()
+				console.log('notification:', res.status)
+			}
+		}
+		checkPermission()
 	}, [])
 	
 	return (
