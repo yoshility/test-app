@@ -10,19 +10,30 @@
       "backgroundColor": "#ffffff"
     },
     "plugins": [
-      ["expo-speech-recognition"],
-      ["expo-notifications"]
+      [
+        "expo-speech-recognition"
+      ],
+      [
+        "expo-notifications"
+      ],
+      "expo-asset"
     ],
     "android": {
       "package": "com.yoshie.testapp",
       "versionCode": 1,
       "permissions": [
         "RECORD_AUDIO",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "android.permission.RECORD_AUDIO"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon_adaptive_foreground.png",
         "backgroundImage": "./assets/icon_adaptive_background.png"
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "14f7a398-83d9-4871-83bd-7ed2aa073539"
       }
     }
   }
